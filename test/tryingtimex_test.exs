@@ -18,9 +18,11 @@ defmodule TryingtimexTest do
 
     with_ranges = Enum.map(records, fn r -> %{ name: r.name, range: Tryingtimex.get_week_range(r.when) } end)
 
-    # { range1 => [ group of hits ], range2 => [ group of hits ], ... }
+    # %{ range1 => [ group of hits ], range2 => [ group of hits ], ... }
     grouped_by_range = Enum.group_by(with_ranges, fn r -> r.range end)
+    # %{ range1 => %{name => hits, name => hits }, range2 => ... }
     with_hits = Enum.map(grouped_by_range, fn { range, hits } -> { range, extract_counts(hits) } end) |> Enum.into(%{})
+
     assert with_hits[jan_range]['trent'] == 1
     assert with_hits[feb_range]['trent'] == 1
     assert with_hits[feb_range]['bob'] == 2
