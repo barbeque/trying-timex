@@ -29,8 +29,14 @@ defmodule TryingtimexTest do
   def extract_counts(hits_for_range) do
     # [ %{ name, when }, %{ name, when }, %{ name, when }, %{ name, when }, ... ]
     Enum.map(hits_for_range, fn c -> c.name end) # just names
-      |> Enum.group_by(fn nom -> nom end) # group by the names
-      |> Enum.map(fn {name, occurrences} -> {name, length(occurrences)} end) # convert groups into counts
+      |> get_item_frequencies
+  end
+
+  # converts an arbitrary array of items into a set of unique { item1 => count, item2 => count }
+  # based on frequency
+  def get_item_frequencies(items) do
+    Enum.group_by(items, fn i -> i end) # group by the names
+      |> Enum.map(fn {item, occurrences} -> {item, length(occurrences)} end) # convert groups into counts
       |> Enum.into(%{}) # put it all in a nice map
   end
 
