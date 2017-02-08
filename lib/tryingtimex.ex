@@ -18,7 +18,7 @@ defmodule Tryingtimex do
 
   def get_week_range(date) do
     triplet = date |> Timex.iso_triplet
-    # starts on monday i guess
+    # the week starts on monday in erlang land, i guess
     start_week = triplet |> fn({year, week, _}) -> {year, week, 1} end.() |> Timex.from_iso_triplet
     end_week = triplet |> fn({year, week, _}) -> {year, week, 7} end.() |> Timex.from_iso_triplet
     # return it so everyone is happy
